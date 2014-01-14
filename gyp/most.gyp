@@ -18,6 +18,7 @@
         'bench.gyp:*',
         'example.gyp:HelloWorld',
         'SampleApp.gyp:SampleApp',
+        'main.gyp:main',
         'tools.gyp:tools',
         'pathops_unittest.gyp:*',
         'pathops_skpclip.gyp:*',

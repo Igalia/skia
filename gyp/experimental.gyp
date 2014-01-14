@@ -43,7 +43,7 @@
       'include_dirs': [
         '../src/core',
         '../tools/flags',
-      ],
+     ],
       'dependencies': [
         'pdf.gyp:pdf',
         'skia_lib.gyp:skia_lib',
