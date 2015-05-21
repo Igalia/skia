@@ -9,6 +9,10 @@
 #include "SkShader.h"
 #include "SkColorFilter.h"
 #include "SkImageInfo.h"
+#include "SkPictureRecorder.h"
+#include "SkPicture.h"
+#include "SkString.h"
+#include "SkStream.h"
 
 #include <stdio.h>
 
@@ -57,10 +61,16 @@ int main()
   SkPaint paint;
   SkRect r;
 
+  SkPictureRecorder pictRec;
+  SkCanvas *cv = pictRec.beginRecording(200, 200);
+
   // Set background as checker board
   SkShader *s = createChecker();
   paint.setShader(s);
   canvas.drawPaint(paint);
+
+  cv->drawPaint(paint);
+
   paint.setShader(NULL);
 
   // Draw three rectangles of different colors
@@ -79,6 +89,16 @@ int main()
 
   SkSafeUnref(p.setColorFilter(createColorFilter()));
   canvas.drawBitmap(bitmapTemp, 10, 40, &p);
+
+  cv->drawBitmap(bitmapTemp, 10, 40, &p);
+
+  cv->drawColor(SK_ColorWHITE);
+
+  SkPicture *pict = pictRec.endRecording();
+
+  SkString path("snapshot-skp.skp");
+  SkFILEWStream stream(path.c_str());
+  pict->serialize(&stream);
 
   {
     SkAutoLockPixels image_lock(bitmap);
